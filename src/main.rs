@@ -1,5 +1,3 @@
-use std::net::TcpStream;
-use std::io::{Read, Write};
 
 mod cli;
 mod http;
@@ -8,17 +6,14 @@ mod output;
 
 use clap::Parser;
 use cli::Cli;
+use net::tcp;
+
 
 fn main() -> std::io::Result<()> {
 
     let args = Cli::parse();
 
     println!("Hexforge bound to {}:{}", args.target, args.port);
-
-
-    let address = format!("{}:{}", args.target, args.port);
-
-    let mut stream = TcpStream::connect(address)?;
 
 
     let request = format!(
@@ -30,13 +25,14 @@ fn main() -> std::io::Result<()> {
         args.target
     );
 
-    stream.write_all(request.as_bytes())?;
-
-    let mut response = String::new();
-    stream.read_to_string(&mut response)?;
+    let response = tcp::send_raw(
+        &args.target,
+        args.port,
+        request.as_bytes()
+    )?;
 
     println!("Server responded:");
-    println!("{}", response);
+    println!("{}", String::from_utf8_lossy(&response));
 
     Ok(())
 
