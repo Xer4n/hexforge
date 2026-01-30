@@ -44,6 +44,11 @@ fn main() -> std::io::Result<()> {
 
     let request = request::build_get_request(&method, &args.target, &args.path, &headers);
 
+    if args.verbose {
+        println!("Request:");
+        println!("{}", String::from_utf8_lossy(&request));
+    }
+
     let response = tcp::send_raw(
         &args.target,
         args.port,
