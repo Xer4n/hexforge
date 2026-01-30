@@ -7,6 +7,7 @@ mod output;
 use clap::Parser;
 use cli::Cli;
 use net::tcp;
+use http::request;
 
 
 fn main() -> std::io::Result<()> {
@@ -16,19 +17,12 @@ fn main() -> std::io::Result<()> {
     println!("Hexforge bound to {}:{}", args.target, args.port);
 
 
-    let request = format!(
-        "GET / HTTP/1.1\r\n\
-        Host: {}\r\n\
-        User-Agent: Hexforge\r\n
-        Connection: close\r\n\
-        \r\n",
-        args.target
-    );
+    let request = request::build_get_request(&args.target, "/");
 
     let response = tcp::send_raw(
         &args.target,
         args.port,
-        request.as_bytes()
+        &request,
     )?;
 
     println!("Server responded:");
