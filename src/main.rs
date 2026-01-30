@@ -17,7 +17,7 @@ fn main() -> std::io::Result<()> {
     println!("Hexforge bound to {}:{}", args.target, args.port);
 
 
-    let request = request::build_get_request(&args.target, "/");
+    let request = request::build_get_request(&args.target, &args.path);
 
     let response = tcp::send_raw(
         &args.target,
