@@ -30,4 +30,8 @@ pub struct Cli {
     /// Verbose mode
     #[arg(long)]
     pub verbose: bool,
+
+    /// Test mode (No requests sent)
+    #[arg(long)]
+    pub test: bool,
 }

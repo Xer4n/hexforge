@@ -39,14 +39,17 @@ fn main() -> std::io::Result<()> {
         }
     }
 
-    println!("Hexforge bound to {}:{}", args.target, args.port);
-
-
     let request = request::build_get_request(&method, &args.target, &args.path, &headers);
 
     if args.verbose {
-        println!("Request:");
+        println!("\x1b[32m\nConstructed request:\x1b[0m\n");
         println!("{}", String::from_utf8_lossy(&request));
+    }
+
+    // If test mode is enabled, exit without sending requests
+    if args.test {
+        println!("\x1b[31m[TEST MODE]\x1b[0m - No requests sent.");
+        std::process::exit(0);
     }
 
     let response = tcp::send_raw(
