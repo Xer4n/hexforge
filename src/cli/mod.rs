@@ -34,4 +34,12 @@ pub struct Cli {
     /// Test mode (No requests sent)
     #[arg(long)]
     pub test: bool,
+
+    //Disable host header
+    #[arg(long)]
+    pub no_host: bool,
+
+    //Disable user agent header
+    #[arg(long)]
+    pub no_ua: bool,
 }

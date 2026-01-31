@@ -39,11 +39,27 @@ fn main() -> std::io::Result<()> {
         }
     }
 
-    let request = request::build_get_request(&method, &args.target, &args.path, &headers);
+    let request = request::build_get_request(
+        &method,
+        &args.target,
+        &args.path,
+        &headers,
+        !args.no_host,
+        !args.no_ua
+    );
 
     if args.verbose {
+        println!("\x1b[33m[INFO]\x1b[0m - VERBOSE mode enabled.");
         println!("\x1b[32m\nConstructed request:\x1b[0m\n");
         println!("{}", String::from_utf8_lossy(&request));
+
+        if args.no_host {
+            println!("\x1b[33m[INFO]\x1b[0m - Host header not included.");
+        }
+
+        if args.no_ua {
+            println!("\x1b[33m[INFO]\x1b[0m - User-Agent header not included.");
+        }
     }
 
     // If test mode is enabled, exit without sending requests
@@ -58,7 +74,7 @@ fn main() -> std::io::Result<()> {
         &request,
     )?;
 
-    println!("Server responded:");
+    println!("\n\n\x1b[32mServer responded:\x1b[0m\n");
     println!("{}", String::from_utf8_lossy(&response));
 
     Ok(())
