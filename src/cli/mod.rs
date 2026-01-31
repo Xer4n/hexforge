@@ -12,10 +12,10 @@ pub struct Cli {
     pub target: String,
 
     /// Target port
-    #[arg(short, long, default_value_t = 80)] //Default port is 80
+    #[arg(short, long, default_value_t = 80)]
     pub port: u16,
 
-    /// HTTP path (default: "/")
+    /// HTTP path
     #[arg(short = 'P', long, default_value = "/")]
     pub path: String,
 
@@ -35,11 +35,11 @@ pub struct Cli {
     #[arg(long)]
     pub test: bool,
 
-    //Disable host header
+    ///Disable host header
     #[arg(long)]
     pub no_host: bool,
 
-    //Disable user agent header
+    ///Disable user agent header
     #[arg(long)]
     pub no_ua: bool,
 }
