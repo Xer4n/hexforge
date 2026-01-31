@@ -8,7 +8,7 @@ use clap::Parser;
 
 pub struct Cli {
 
-    /// Target IP address
+    /// Target IP address or domain name
     pub target: String,
 
     /// Target port
